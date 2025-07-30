@@ -1,0 +1,48 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DEFAULT_MODEL=medium
+      - DEFAULT_TIMEOUT=3600
+      - DEFAULT_RESULT_TTL=86400
+      - SHARED_DIR=/app/shared
+    volumes:
+      - /data/whisper/uploads:/app/shared
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build: .
+    restart: always
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DEFAULT_TIMEOUT=1800
+        #      - MAX_CHARS_PER_LINE_EN=40
+        #      - MAX_CHARS_PER_LINE_AR=37
+      - MAX_LINES_EN=1
+      - MAX_LINES_AR=1
+    depends_on:
+      - redis
+    command: ["rq", "worker", "--url", "redis://redis:6379/0", "transcribe"]
+    volumes:
+      - /data/whisper/models:/root/.cache/whisper
+      - /data/whisper/uploads:/app/shared
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    runtime: nvidia
+
+  redis:
+    image: redis
+

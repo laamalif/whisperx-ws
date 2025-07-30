@@ -1,0 +1,10 @@
+aiofiles
+fastapi
+httpx
+uvicorn[standard]
+redis
+rq
+whisperx
+python-multipart
+werkzeug
+pyannote.audio

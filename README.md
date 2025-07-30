@@ -49,8 +49,8 @@ You can customize the behavior of the output by modifying the environment variab
 |---------------------------|---------|-------------|
 | `MAX_LINES_EN`            | `2`     | The maximum number of lines per subtitle segment for English. |
 | `MAX_LINES_AR`            | `2`     | The maximum number of lines per subtitle segment for Arabic. |
-| `MAX_CHARS_PER_LINE_EN`   | `42`    | (Commented out by default) The maximum number of characters per line for English subtitles. |
-| `MAX_CHARS_PER_LINE_AR`   | `32`    | (Commented out by default) The maximum number of characters per line for Arabic subtitles. |
+| `MAX_CHARS_PER_LINE_EN`   | `42`    | The maximum number of characters per line for English subtitles. |
+| `MAX_CHARS_PER_LINE_AR`   | `32`    | The maximum number of characters per line for Arabic subtitles. |
 | `DEFAULT_MODEL`           | `medium`| The default WhisperX model to use for transcriptions if not specified in the API call. |
 
 ---
